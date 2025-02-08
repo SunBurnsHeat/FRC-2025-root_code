@@ -164,6 +164,19 @@ public class RobotContainer {
     return thetaController;
   }
 
+  private Command swerveCommand(Trajectory traj){
+    SwerveControllerCommand moveToReefCommand = new SwerveControllerCommand(
+      traj,
+      robotDrive::getP, 
+      DriveConstants.kDriveKinematics, 
+      new PIDController(1, 0, 0), 
+      new PIDController(1, 0, 0),
+      getThetaController(),
+      robotDrive::setModuleStates,
+      robotDrive);
+    return moveToReefCommand.andThen(() -> robotDrive.drive(0, 0, 0, false, false));
+  }
+
   private Command moveForwardCommand(){
       Trajectory moveForwardTraj = TrajectoryGenerator.generateTrajectory(
           new Pose2d(new Translation2d(7.1927, 4.195), Rotation2d.fromDegrees(180)),
