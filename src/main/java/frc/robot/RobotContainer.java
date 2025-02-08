@@ -165,7 +165,7 @@ public class RobotContainer {
   }
 
   private Command swerveCommand(Trajectory traj){
-    SwerveControllerCommand moveToReefCommand = new SwerveControllerCommand(
+    SwerveControllerCommand command = new SwerveControllerCommand(
       traj,
       robotDrive::getP, 
       DriveConstants.kDriveKinematics, 
@@ -174,7 +174,7 @@ public class RobotContainer {
       getThetaController(),
       robotDrive::setModuleStates,
       robotDrive);
-    return moveToReefCommand.andThen(() -> robotDrive.drive(0, 0, 0, false, false));
+    return command.andThen(() -> robotDrive.drive(0, 0, 0, false, false));
   }
 
   private Command moveForwardCommand(){
