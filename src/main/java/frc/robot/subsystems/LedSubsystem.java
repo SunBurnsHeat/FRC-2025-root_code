@@ -4,20 +4,19 @@ import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.Percent;
 import static edu.wpi.first.units.Units.Second;
 
-import java.nio.channels.SocketChannel;
-
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.units.Unit;
-import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.LEDPattern;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.LEDConstants;
 
-public class LedSubsystem extends SubsystemBase {            
+public class LedSubsystem extends SubsystemBase {
+
+    private static ElevatorSubsystem elevator = new ElevatorSubsystem();
+            
             private static AddressableLED ledBar; // instance of the led bar class
         
             // Buffer or the holder of the color's data and its variable
@@ -31,12 +30,11 @@ public class LedSubsystem extends SubsystemBase {
             private static AddressableLEDBuffer elevator_progress_buffer;
             private static AddressableLEDBuffer scroll_buffer;
             private static AddressableLEDBuffer breath_buffer;
-        
-            private static LEDPattern base = LEDPattern.gradient(LEDPattern.GradientType.kDiscontinuous,Color.kRed, Color.kBlue);
+            private static AddressableLEDBuffer alliance_buffer;
 
-            public static DriverStation.Alliance friendlyAlliance = DriverStation.getAlliance().get();
 
-            public static LEDPattern breathing;
+            private static LEDPattern scrollBase = LEDPattern.gradient(LEDPattern.GradientType.kDiscontinuous, Color.kCoral, Color.kWheat);
+            private static LEDPattern allianceLED;
         
         
             // private static int dynamicCount = 0; // counter for dynamic messages
@@ -45,6 +43,8 @@ public class LedSubsystem extends SubsystemBase {
         
             // a block that runs once when class is initially loaded
             static {
+                setAllianceColor();
+
                 ledBar = new AddressableLED(LEDConstants.kLEDBarPWM); // initializes the led bar object with the given power port
                 ledBar.setLength(LEDConstants.ledLength);
         
@@ -58,6 +58,7 @@ public class LedSubsystem extends SubsystemBase {
                 elevator_progress_buffer = new AddressableLEDBuffer(LEDConstants.ledBufferLength);
                 scroll_buffer = new AddressableLEDBuffer(LEDConstants.ledBufferLength);
                 breath_buffer = new AddressableLEDBuffer(LEDConstants.ledBufferLength);
+                alliance_buffer = new AddressableLEDBuffer(LEDConstants.ledBufferLength);
                 // led_green = new AddressableLEDBuffer(LEDConstants.ledBufferLength);
                 // led_dynamic_msg = new AddressableLEDBuffer(LEDConstants.ledBufferLength); // specific blinking message
         
@@ -108,21 +109,27 @@ public class LedSubsystem extends SubsystemBase {
                 ledBar.setData(led_green); // lights up green
             }
         
-            public static void setAllianceSolid(){ // sets allaince color in led
-                
+            public static void setAllianceColor(){ // sets allaince color in led
+                DriverStation.Alliance friendlyAlliance = DriverStation.getAlliance().get();
                 if(friendlyAlliance == DriverStation.Alliance.Red){
-                    ledBar.setData(led_red_alliance);
+                    allianceLED = LEDPattern.solid(Color.kRed);
                 }
                 else if(friendlyAlliance == DriverStation.Alliance.Blue){
-                    ledBar.setData(led_blue_alliance);
+                    allianceLED = LEDPattern.solid(Color.kBlue);
                 }
                 else {
-                    ledBar.setData(led_red_blue);
+                    allianceLED = LEDPattern.gradient(LEDPattern.GradientType.kDiscontinuous, Color.kRed, Color.kBlue);
                 }
+            }
+
+            public static void setAllianceSolid(){
+                allianceLED.applyTo(alliance_buffer);
+                ledBar.setData(alliance_buffer);
+                ledBar.setData(alliance_buffer);
             }
         
             public static void scrollMsg(){
-                LEDPattern pattern = base.scrollAtRelativeSpeed(Percent.per(Second).of(25));
+                LEDPattern pattern = scrollBase.scrollAtRelativeSpeed(Percent.per(Second).of(25));
         
                 pattern.applyTo(scroll_buffer);
         
@@ -130,16 +137,7 @@ public class LedSubsystem extends SubsystemBase {
             }
         
             public static void setBreathingMsg(){
-
-                if(friendlyAlliance == DriverStation.Alliance.Red){
-                    breathing = ((LEDPattern) led_red_alliance).breathe(Second.of(1.5));
-                }
-                else if(friendlyAlliance == DriverStation.Alliance.Blue){
-                    breathing = ((LEDPattern) led_blue_alliance).breathe(Second.of(1.5));
-                }
-                else {
-                    ledBar.setData(led_red_blue);
-                }
+                LEDPattern breathing = allianceLED.breathe(Second.of(2.5));
         
                 breathing.applyTo(breath_buffer);
         
@@ -147,11 +145,18 @@ public class LedSubsystem extends SubsystemBase {
             }
         
             public static void setRainbow(){
-                LEDPattern rainbow = LEDPattern.rainbow(255, 128);
+                LEDPattern rainbow = LEDPattern.rainbow(255, 128).atBrightness(Percent.of(100));
                 rainbow.applyTo(rainbow_buffer);
                 ledBar.setData(rainbow_buffer);
             }
         
+            public static void elevatorMsg(){
+                LEDPattern elevatorGradient = LEDPattern.gradient(LEDPattern.GradientType.kDiscontinuous, Color.kTurquoise, Color.kNavy);
+                LEDPattern elevatoPattern = LEDPattern.progressMaskLayer(() -> elevator.getHeight()/ElevatorConstants.kElevatorMaxHeightInches).overlayOn(elevatorGradient);
+                elevatoPattern.applyTo(elevator_progress_buffer);
+                ledBar.setData(elevator_progress_buffer);
+            }
+
     // public static void setRainbow(){ // sets rainbow led
     //     // For every pixel
     //     for (var i = 0; i < led_dynamic_msg.getLength(); i++) {

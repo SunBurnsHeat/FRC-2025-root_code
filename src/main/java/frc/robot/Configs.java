@@ -5,7 +5,11 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkFlexConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.ModuleConstants;
+import frc.robot.Constants.ScorerConstants;
+import frc.robot.Constants.WinchConstants;
 
 public final class Configs {
     public static final class MAXSwereveModule{
@@ -21,7 +25,7 @@ public final class Configs {
 
             drivingConfig
                     .idleMode(IdleMode.kBrake)
-                    .smartCurrentLimit(40);
+                    .smartCurrentLimit(70);
             drivingConfig.encoder
                     .positionConversionFactor(drivingFactor) // meters
                     .velocityConversionFactor(drivingFactor / 60.0); // meters per second
@@ -34,7 +38,7 @@ public final class Configs {
 
             turningConfig
                     .idleMode(IdleMode.kBrake)
-                    .smartCurrentLimit(40);
+                    .smartCurrentLimit(20);
             turningConfig.absoluteEncoder
                     // Invert the turning encoder, since the output shaft rotates in the opposite
                     // direction of the steering motor in the MAXSwerve Module.
@@ -56,4 +60,141 @@ public final class Configs {
 
     }
 
+    public static final class ElevatorSubsystemConfigs{
+        public static final SparkMaxConfig leadElevatorMaxConfig = new SparkMaxConfig();
+        public static final SparkMaxConfig followElevatorMaxConfig = new SparkMaxConfig();
+
+
+        static{
+                leadElevatorMaxConfig
+                        .idleMode(IdleMode.kBrake)
+                        .smartCurrentLimit(40)
+                        .voltageCompensation(12);
+                leadElevatorMaxConfig.encoder
+                        .positionConversionFactor(1.0 / ElevatorConstants.kElevatorMotorGearRatio)
+                        .velocityConversionFactor(1.0 / ElevatorConstants.kElevatorMotorGearRatio / 60.0);
+                leadElevatorMaxConfig.closedLoop
+                        .maxMotion.maxVelocity(ElevatorConstants.kMaxVelocityInchesPerSecond)
+                        .maxAcceleration(ElevatorConstants.kMaxAccelerationInchesPerSecondSquared);
+                leadElevatorMaxConfig.closedLoop
+                        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+                        .pid(0.1, 0, 0.005)
+                        .outputRange(-1, 1);
+                leadElevatorMaxConfig.softLimit
+                        .forwardSoftLimit(ElevatorConstants.kElevatorForwardSoftLimit)
+                        .forwardSoftLimitEnabled(true)
+                        .reverseSoftLimit(ElevatorConstants.kElevatorReverseSoftLimit)
+                        .reverseSoftLimitEnabled(true);
+                
+
+                followElevatorMaxConfig
+                        .idleMode(IdleMode.kBrake)
+                        .smartCurrentLimit(40)
+                        .voltageCompensation(12)
+                        .follow(ElevatorConstants.kLeadElevatorMotorCANID, true);
+                followElevatorMaxConfig.encoder
+                        .positionConversionFactor(1.0 / ElevatorConstants.kElevatorMotorGearRatio)
+                        .velocityConversionFactor(1.0 / ElevatorConstants.kElevatorMotorGearRatio / 60.0);
+                followElevatorMaxConfig.closedLoop.maxMotion
+                        .maxVelocity(ElevatorConstants.kMaxVelocityInchesPerSecond)
+                        .maxAcceleration(ElevatorConstants.kMaxAccelerationInchesPerSecondSquared);
+                followElevatorMaxConfig.closedLoop
+                        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+                        .pid(0.1, 0, 0.002)
+                        .outputRange(-1, 1);
+                followElevatorMaxConfig.softLimit
+                        .forwardSoftLimit(ElevatorConstants.kElevatorForwardSoftLimit)
+                        .forwardSoftLimitEnabled(true)
+                        .reverseSoftLimit(ElevatorConstants.kElevatorReverseSoftLimit)
+                        .reverseSoftLimitEnabled(true);
+        }
+
+    }
+
+    public static final class ScorerSubsystemConfigs{
+        public static final SparkMaxConfig scorerRightMaxConfig = new SparkMaxConfig();
+        public static final SparkMaxConfig scorerLeftMaxConfig = new SparkMaxConfig();
+
+
+        static{
+                scorerRightMaxConfig
+                        .idleMode(IdleMode.kBrake)
+                        .smartCurrentLimit(30)
+                        .voltageCompensation(12);
+                scorerRightMaxConfig.encoder
+                        .positionConversionFactor(1.0)
+                        .velocityConversionFactor(1.0 / 60.0);
+                scorerRightMaxConfig.closedLoop
+                        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+                        .pid(0.00125, 0, 0)
+                        .outputRange(-1, 1);
+
+                scorerLeftMaxConfig
+                        .idleMode(IdleMode.kBrake)
+                        .smartCurrentLimit(30)
+                        .voltageCompensation(12);
+                scorerLeftMaxConfig.encoder
+                        .positionConversionFactor(1.0)
+                        .velocityConversionFactor(1.0 / 60.0);
+                scorerLeftMaxConfig.closedLoop
+                        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+                        .pid(0.00115, 0, 0)
+                        .outputRange(-1, 1);
+                }
+        }
+
+        public static final class ArmSubsystemConfigs{
+
+        public static final SparkMaxConfig armMaxConfig = new SparkMaxConfig();
+        public static final SparkMaxConfig rollerMaxConfig = new SparkMaxConfig();
+
+        static{
+                armMaxConfig
+                        .idleMode(IdleMode.kBrake)
+                        .smartCurrentLimit(40)
+                        .voltageCompensation(12);
+                armMaxConfig.encoder
+                        .positionConversionFactor(1.0 * 360.0 / ArmConstants.kArmMotorGearRatio)
+                        .velocityConversionFactor(1.0 / 60.0);
+                armMaxConfig.softLimit
+                        .forwardSoftLimit(ArmConstants.kArmForwardSoftLimit)
+                        .forwardSoftLimitEnabled(true)
+                        .reverseSoftLimit(ArmConstants.kArmReverseSoftLimit)
+                        .reverseSoftLimitEnabled(true);
+                armMaxConfig.closedLoop
+                        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+                        .pid(0.01, 0, 0)
+                        .outputRange(-1, 1);
+
+                rollerMaxConfig
+                        .idleMode(IdleMode.kBrake)
+                        .smartCurrentLimit(25)
+                        .voltageCompensation(12);
+                rollerMaxConfig.encoder
+                        .positionConversionFactor(1.0)
+                        .velocityConversionFactor(1.0 / 60.0);
+                rollerMaxConfig.closedLoop
+                        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+                        .pid(0.00115, 0, 0)
+                        .outputRange(-1, 1);
+                }
+        }
+
+        public static final class WinchConfigs {
+        
+        public static final SparkMaxConfig winchMaxConfig = new SparkMaxConfig();
+
+        static{
+                winchMaxConfig
+                .idleMode(IdleMode.kBrake)
+                .smartCurrentLimit(40)
+                .voltageCompensation(12);
+
+                winchMaxConfig.softLimit
+                .forwardSoftLimit(0)
+                .forwardSoftLimitEnabled(true)
+                .reverseSoftLimit(WinchConstants.kTopPosition)
+                .reverseSoftLimitEnabled(true);
+        }
+        }
 }

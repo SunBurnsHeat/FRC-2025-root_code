@@ -4,10 +4,13 @@
 
 package frc.robot;
 
+import frc.robot.Configs.ElevatorSubsystemConfigs;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
 
 import java.lang.annotation.ElementType;
 import java.util.List;
@@ -40,6 +43,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem robotDrive = new DriveSubsystem();
+  private final ElevatorSubsystem elevator = new ElevatorSubsystem();
+
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController driverControllerCommand =
       new CommandXboxController(OIConstants.kDriverControllerPort);
@@ -60,7 +65,9 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    robotDrive.zeroHeading();
+
+    robotDrive.setFieldRelativeOffset(180);
+
     
     // Create config for trajectory
     TrajectoryConfig config = new TrajectoryConfig(

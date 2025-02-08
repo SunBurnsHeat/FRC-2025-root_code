@@ -20,7 +20,7 @@ import frc.robot.Configs;
 public class MAXSwereveModule {
 
     // create variables for modules
-    private final SparkMax kDrivingMax;
+    private final SparkFlex kDrivingFlex;
     private final SparkMax kTurningMAX;
 
     // create variables for encoders
@@ -39,21 +39,21 @@ public class MAXSwereveModule {
     public MAXSwereveModule(int turningCANid, int drivingCANid, double angleOffset) {
         // initiate the module motors
         kTurningMAX = new SparkMax(turningCANid, MotorType.kBrushless);
-        kDrivingMax = new SparkMax(drivingCANid, MotorType.kBrushless);
+        kDrivingFlex = new SparkFlex(drivingCANid, MotorType.kBrushless);
 
 
         // initiate the module encoders
-        kDriveEncoder = kDrivingMax.getEncoder();
+        kDriveEncoder = kDrivingFlex.getEncoder();
         kTurningEncoder = kTurningMAX.getAbsoluteEncoder();
         
         // initiate the closed-loop-controllers
         kTurningClosedLoopController = kTurningMAX.getClosedLoopController();
-        kDrivingClosedLoopController = kDrivingMax.getClosedLoopController();
+        kDrivingClosedLoopController = kDrivingFlex.getClosedLoopController();
 
         // Apply the respective configurations to the SPARKS. Reset parameters before
         // applying the configuration to bring the SPARK to a known good state. Persist
         // the settings to the SPARK to avoid losing them on a power cycle.
-        kDrivingMax.configure(Configs.MAXSwereveModule.drivingConfig, 
+        kDrivingFlex.configure(Configs.MAXSwereveModule.drivingConfig, 
         ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         kTurningMAX.configure(Configs.MAXSwereveModule.turningConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 

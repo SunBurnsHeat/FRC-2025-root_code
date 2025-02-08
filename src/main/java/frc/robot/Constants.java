@@ -22,13 +22,13 @@ public final class Constants {
     public static class DriveConstants {
         public static final int kFrontLeftDriveCANID = 1;
         public static final int kFrontRightDriveCANID = 3;
-        public static final int kBackLeftDriveCANID = 5;
-        public static final int kBackRightDriveCANID = 7;
+        public static final int kBackLeftDriveCANID = 7;
+        public static final int kBackRightDriveCANID = 5;
 
         public static final int kFrontLeftSteerCANID = 2;
         public static final int kFrontRightSteerCANID = 4;
-        public static final int kBackLeftSteerCANID = 6;
-        public static final int kBackRightSteerCANID = 8;
+        public static final int kBackLeftSteerCANID = 8;
+        public static final int kBackRightSteerCANID = 6;
 
         public static final double rotationSlewRate = 2.0;
         public static final double directionSlewRate = 1.2;
@@ -48,7 +48,7 @@ public final class Constants {
         public static final double kBackLeftOffset = Math.PI;
         public static final double kBackRightOffset = (Math.PI / 2);
 
-        public static final double kMaxSpeedMetersPerSec = 4.0; // max speed in mps
+        public static final double kMaxSpeedMetersPerSec = 4.8; // max speed in mps
         public static final double kMaxAngSpeedRadiansPerSec = 2 * Math.PI; // max turning speed in rps
     }
 
@@ -57,7 +57,7 @@ public final class Constants {
 
         public static final boolean kTurningEncoderInverted = true;
 
-        public static final double kDrivingMotorFreeSpeedRps = NeoMotorConstants.kFreeSpeedRpm / 60;
+        public static final double kDrivingMotorFreeSpeedRps = NeoVortexMotorConstants.kFreeSpeedRpm / 60;
         public static final double kWheelDiameterMeters = 0.0762;
         public static final double kWheelCircumferenceMeters = kWheelDiameterMeters * Math.PI;
 
@@ -74,8 +74,8 @@ public final class Constants {
         public static final double kDriveDeadband = 0.05;
     }
 
-    public static final class NeoMotorConstants {
-        public static final double kFreeSpeedRpm = 5676;
+    public static final class NeoVortexMotorConstants {
+        public static final double kFreeSpeedRpm = 6784;
     }
 
     public static final class LEDConstants {
@@ -106,21 +106,71 @@ public final class Constants {
             kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
 
         public static final TrajectoryConfig kTrajConfigStandard = new TrajectoryConfig(
-            AutoConstants.kMaxSpeedMetersPerSecondStandard, AutoConstants.kMaxAccelerationMetersPerSecondSquaredStandard).setKinematics(DriveConstants.kDriveKinematics)
-            .setKinematics(DriveConstants.kDriveKinematics);
+            AutoConstants.kMaxSpeedMetersPerSecondStandard, AutoConstants.kMaxAccelerationMetersPerSecondSquaredStandard).setKinematics(DriveConstants.kDriveKinematics);
         
         public static final TrajectoryConfig kTrajConfigFast = new TrajectoryConfig(
-            AutoConstants.kMaxSpeedMetersPerSecondFast, AutoConstants.kMaxAccelerationMetersPerSecondSquaredFast).setKinematics(DriveConstants.kDriveKinematics)
-            .setKinematics(DriveConstants.kDriveKinematics);
+            AutoConstants.kMaxSpeedMetersPerSecondFast, AutoConstants.kMaxAccelerationMetersPerSecondSquaredFast).setKinematics(DriveConstants.kDriveKinematics);
 
         public static final TrajectoryConfig kTrajConfigSlow = new TrajectoryConfig(
-            AutoConstants.kMaxSpeedMetersPerSecondSlow, AutoConstants.kMaxAccelerationMetersPerSecondSquaredSlow).setKinematics(DriveConstants.kDriveKinematics)
-            .setKinematics(DriveConstants.kDriveKinematics);
+            AutoConstants.kMaxSpeedMetersPerSecondSlow, AutoConstants.kMaxAccelerationMetersPerSecondSquaredSlow).setKinematics(DriveConstants.kDriveKinematics);
+    }
 
-        public static final TrajectoryConfig kTrajConfigStandardBackwards = kTrajConfigStandard.setReversed(true);
-        
-        public static final TrajectoryConfig kTrajConfigFastBackwards = kTrajConfigFast.setReversed(true);
+    public static final class ElevatorConstants{
+        public static final int kLeadElevatorMotorCANID = 11;
+        public static final int kFollowElevatorMotorCANID = 12;
 
-        public static final TrajectoryConfig kTrajConfigSlowBackwards = kTrajConfigSlow.setReversed(true);
+        public static final double kElevatorMaxHeightInches = 48;
+        public static final double kElevatorMaxSpeed = 1.0;
+
+        public static final double kMaxVelocityInchesPerSecond = Units.metersToInches(3);
+        public static final double kMaxAccelerationInchesPerSecondSquared = Units.metersToInches(1);
+
+        public static final double kElevatorMotorGearRatio = 1.0;
+
+        public static final double kElevatorForwardSoftLimit = 0.0;
+        public static final double kElevatorReverseSoftLimit = kElevatorMaxHeightInches;
+
+        public static final double kElevatorHeightDeadband = 0.1;
+
+        public static final double kElevatorPosition_L0_Inches = 12;
+        public static final double kElevatorPosition_L1_Inches = 18;
+        public static final double kElevatorPosition_L2_Inches = 24;
+        public static final double kElevatorPosition_L3_Inches = 30;
+    }
+
+    public static final class ArmConstants{
+        public static final int kArmMotorCANID = 14;
+        public static final int kArmRollerMotorCANID = 15;
+
+        public static final double kArmMotorGearRatio = 12;
+
+        public static final double kArmPositionDeadband = 3;
+        public static final double kArmRollerSpeedDeadband = 100;
+
+        public static final double kArmForwardSoftLimit = 0;
+        public static final double kArmReverseSoftLimit = 90;
+
+        public static final double kFullExtendPosition = 90;
+        public static final double kStowPosition = 0;
+        public static final double kPartialPosition = 30;
+    }
+
+    public static final class ScorerConstants{
+        public static final int kScorerRightMotorCANID = 13;
+        public static final int kScorerLeftMotorCANID = 14;
+
+        public static final int kIntakeVelocityRPM = 2500;
+
+        public static final double kScorerSpeedDeadbandRPM = 120;
+    }
+
+    public static final class WinchConstants{
+        public static final int kWinchCANID = 60;
+
+        public static final double kTopPosition = -200;
+        public static final double kIdlePosition = -90; 
+
+        public static final double kIdleSpeed = 0.25;
+        public static final double kWinchSpeed = -0.9;
     }
 }
