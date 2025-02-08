@@ -186,15 +186,14 @@ public final class Configs {
 
         static{
                 winchMaxConfig
-                .idleMode(IdleMode.kBrake)
-                .smartCurrentLimit(40)
-                .voltageCompensation(12);
-
+                        .idleMode(IdleMode.kBrake)
+                        .smartCurrentLimit(40)
+                        .voltageCompensation(12);
                 winchMaxConfig.softLimit
-                .forwardSoftLimit(0)
-                .forwardSoftLimitEnabled(true)
-                .reverseSoftLimit(WinchConstants.kTopPosition)
-                .reverseSoftLimitEnabled(true);
+                        .forwardSoftLimit(0)
+                        .forwardSoftLimitEnabled(true)
+                        .reverseSoftLimit(WinchConstants.kTopPosition)
+                        .reverseSoftLimitEnabled(true);
         }
         }
 }

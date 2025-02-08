@@ -106,13 +106,22 @@ public final class Constants {
             kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
 
         public static final TrajectoryConfig kTrajConfigStandard = new TrajectoryConfig(
-            AutoConstants.kMaxSpeedMetersPerSecondStandard, AutoConstants.kMaxAccelerationMetersPerSecondSquaredStandard).setKinematics(DriveConstants.kDriveKinematics);
+            AutoConstants.kMaxSpeedMetersPerSecondStandard, AutoConstants.kMaxAccelerationMetersPerSecondSquaredStandard)
+            .setKinematics(DriveConstants.kDriveKinematics);
         
         public static final TrajectoryConfig kTrajConfigFast = new TrajectoryConfig(
-            AutoConstants.kMaxSpeedMetersPerSecondFast, AutoConstants.kMaxAccelerationMetersPerSecondSquaredFast).setKinematics(DriveConstants.kDriveKinematics);
+            AutoConstants.kMaxSpeedMetersPerSecondFast, AutoConstants.kMaxAccelerationMetersPerSecondSquaredFast)
+            .setKinematics(DriveConstants.kDriveKinematics);
 
         public static final TrajectoryConfig kTrajConfigSlow = new TrajectoryConfig(
-            AutoConstants.kMaxSpeedMetersPerSecondSlow, AutoConstants.kMaxAccelerationMetersPerSecondSquaredSlow).setKinematics(DriveConstants.kDriveKinematics);
+            AutoConstants.kMaxSpeedMetersPerSecondSlow, AutoConstants.kMaxAccelerationMetersPerSecondSquaredSlow)
+            .setKinematics(DriveConstants.kDriveKinematics);
+
+        public static final TrajectoryConfig kTrajConfigStandardReverse = kTrajConfigStandard.setReversed(true);
+
+        public static final TrajectoryConfig kTrajConfigFastReverse = kTrajConfigFast.setReversed(true);
+
+        public static final TrajectoryConfig kTrajConfigSlowReverse = kTrajConfigSlow.setReversed(true);
     }
 
     public static final class ElevatorConstants{
