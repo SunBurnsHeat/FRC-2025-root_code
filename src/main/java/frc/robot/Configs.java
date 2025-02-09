@@ -8,7 +8,6 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.ModuleConstants;
-import frc.robot.Constants.ScorerConstants;
 import frc.robot.Constants.WinchConstants;
 
 public final class Configs {
@@ -74,8 +73,8 @@ public final class Configs {
                         .positionConversionFactor(1.0 / ElevatorConstants.kElevatorMotorGearRatio)
                         .velocityConversionFactor(1.0 / ElevatorConstants.kElevatorMotorGearRatio / 60.0);
                 leadElevatorMaxConfig.closedLoop
-                        .maxMotion.maxVelocity(ElevatorConstants.kMaxVelocityInchesPerSecond)
-                        .maxAcceleration(ElevatorConstants.kMaxAccelerationInchesPerSecondSquared);
+                        .maxMotion.maxVelocity(ElevatorConstants.kMaxVelocityRPM)
+                        .maxAcceleration(ElevatorConstants.kMaxAccelerationRPMPerSecSquared);
                 leadElevatorMaxConfig.closedLoop
                         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
                         .pid(0.1, 0, 0.005)
@@ -96,8 +95,8 @@ public final class Configs {
                         .positionConversionFactor(1.0 / ElevatorConstants.kElevatorMotorGearRatio)
                         .velocityConversionFactor(1.0 / ElevatorConstants.kElevatorMotorGearRatio / 60.0);
                 followElevatorMaxConfig.closedLoop.maxMotion
-                        .maxVelocity(ElevatorConstants.kMaxVelocityInchesPerSecond)
-                        .maxAcceleration(ElevatorConstants.kMaxAccelerationInchesPerSecondSquared);
+                        .maxVelocity(ElevatorConstants.kMaxVelocityRPM)
+                        .maxAcceleration(ElevatorConstants.kMaxAccelerationRPMPerSecSquared);
                 followElevatorMaxConfig.closedLoop
                         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
                         .pid(0.1, 0, 0.002)

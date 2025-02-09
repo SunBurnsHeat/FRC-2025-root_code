@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Configs;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.ScorerConstants;
-import frc.robot.Constants.WinchConstants;
 
 public class ScorerSubsystem extends SubsystemBase{
     private final SparkMax scorerRightMax;

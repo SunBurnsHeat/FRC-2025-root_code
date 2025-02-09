@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.Percent;
 import static edu.wpi.first.units.Units.Second;
 
@@ -152,7 +151,7 @@ public class LedSubsystem extends SubsystemBase {
         
             public static void elevatorMsg(){
                 LEDPattern elevatorGradient = LEDPattern.gradient(LEDPattern.GradientType.kDiscontinuous, Color.kTurquoise, Color.kNavy);
-                LEDPattern elevatoPattern = LEDPattern.progressMaskLayer(() -> elevator.getHeight()/ElevatorConstants.kElevatorMaxHeightInches).overlayOn(elevatorGradient);
+                LEDPattern elevatoPattern = LEDPattern.progressMaskLayer(() -> elevator.getHeight()/ElevatorConstants.kElevatorMaxHeightRaw).overlayOn(elevatorGradient);
                 elevatoPattern.applyTo(elevator_progress_buffer);
                 ledBar.setData(elevator_progress_buffer);
             }

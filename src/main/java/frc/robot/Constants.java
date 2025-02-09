@@ -128,23 +128,23 @@ public final class Constants {
         public static final int kLeadElevatorMotorCANID = 11;
         public static final int kFollowElevatorMotorCANID = 12;
 
-        public static final double kElevatorMaxHeightInches = 48;
+        public static final double kElevatorMaxHeightRaw = 48;
         public static final double kElevatorMaxSpeed = 1.0;
 
-        public static final double kMaxVelocityInchesPerSecond = Units.metersToInches(3);
-        public static final double kMaxAccelerationInchesPerSecondSquared = Units.metersToInches(1);
+        public static final double kMaxVelocityRPM = 1500;
+        public static final double kMaxAccelerationRPMPerSecSquared = 400;
 
         public static final double kElevatorMotorGearRatio = 1.0;
 
         public static final double kElevatorForwardSoftLimit = 0.0;
-        public static final double kElevatorReverseSoftLimit = kElevatorMaxHeightInches;
+        public static final double kElevatorReverseSoftLimit = kElevatorMaxHeightRaw;
 
-        public static final double kElevatorHeightDeadband = 0.1;
+        public static final double kElevatorHeightDeadbandRaw = 5;
 
-        public static final double kElevatorPosition_L0_Inches = 12;
-        public static final double kElevatorPosition_L1_Inches = 18;
-        public static final double kElevatorPosition_L2_Inches = 24;
-        public static final double kElevatorPosition_L3_Inches = 30;
+        public static final double kElevatorPosition_L0_Raw = 12;
+        public static final double kElevatorPosition_L2_Raw = 24;
+        public static final double kElevatorPosition_L1_Raw = 18;
+        public static final double kElevatorPosition_L3_Raw = 30;
     }
 
     public static final class ArmConstants{

@@ -70,7 +70,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public boolean atHeight(){
-        return Math.abs(getHeight() - targetPosition) < ElevatorConstants.kElevatorHeightDeadband;
+        return Math.abs(getHeight() - targetPosition) < ElevatorConstants.kElevatorHeightDeadbandRaw;
     }
 
     @Override
