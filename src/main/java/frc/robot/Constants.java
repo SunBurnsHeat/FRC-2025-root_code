@@ -22,13 +22,13 @@ public final class Constants {
     public static class DriveConstants {
         public static final int kFrontLeftDriveCANID = 1;
         public static final int kFrontRightDriveCANID = 3;
-        public static final int kBackLeftDriveCANID = 7;
-        public static final int kBackRightDriveCANID = 5;
+        public static final int kBackLeftDriveCANID = 5;
+        public static final int kBackRightDriveCANID = 7;
 
         public static final int kFrontLeftSteerCANID = 2;
         public static final int kFrontRightSteerCANID = 4;
-        public static final int kBackLeftSteerCANID = 8;
-        public static final int kBackRightSteerCANID = 6;
+        public static final int kBackLeftSteerCANID = 6;
+        public static final int kBackRightSteerCANID = 8;
 
         public static final double rotationSlewRate = 2.0;
         public static final double directionSlewRate = 1.2;
@@ -148,8 +148,8 @@ public final class Constants {
     }
 
     public static final class ArmConstants{
-        public static final int kArmMotorCANID = 14;
-        public static final int kArmRollerMotorCANID = 15;
+        public static final int kArmMotorCANID = 13;
+        public static final int kArmRollerMotorCANID = 14;
 
         public static final double kArmMotorGearRatio = 12;
 
@@ -165,8 +165,8 @@ public final class Constants {
     }
 
     public static final class ScorerConstants{
-        public static final int kScorerRightMotorCANID = 13;
-        public static final int kScorerLeftMotorCANID = 14;
+        public static final int kScorerRightMotorCANID = 15;
+        public static final int kScorerLeftMotorCANID = 16;
 
         public static final int kIntakeVelocityRPM = 2500;
 
