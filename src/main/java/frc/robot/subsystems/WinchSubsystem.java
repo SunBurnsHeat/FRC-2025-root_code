@@ -16,12 +16,14 @@ import frc.robot.Constants.WinchConstants;
 public class WinchSubsystem extends SubsystemBase{
     private final SparkMax winchMax = new SparkMax(WinchConstants.kWinchCANID, MotorType.kBrushless);
 
-    private final RelativeEncoder winchEncoder = winchMax.getEncoder();
+    private final RelativeEncoder winchEncoder;
     
     private final XboxController controller = new XboxController(OIConstants.kCoPilotControllerPort);
 
     public WinchSubsystem(){
         CommandScheduler.getInstance().registerSubsystem(this);
+
+        winchEncoder = winchMax.getEncoder();
 
         winchMax.configure(WinchConfigs.winchMaxConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         winchEncoder.setPosition(0);

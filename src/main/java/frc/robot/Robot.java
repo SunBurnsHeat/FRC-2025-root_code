@@ -71,9 +71,7 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {
-    LedSubsystem.setRainbow();
-  }
+  public void autonomousPeriodic() { }
 
   @Override
   public void teleopInit() {

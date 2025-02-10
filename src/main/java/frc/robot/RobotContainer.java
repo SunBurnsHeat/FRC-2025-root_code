@@ -59,9 +59,6 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-
-    robotDrive.setFieldRelativeOffset(180);
-
     
     // Create config for trajectory
     TrajectoryConfig config = new TrajectoryConfig(
@@ -114,10 +111,6 @@ public class RobotContainer {
     autoType.setDefaultOption("Three Piece Left", AutoType.Three_Piece_Left);
     SmartDashboard.putData("Auto Type", autoType);
 
-    SendableChooser<AutoRotate> autoRotate = new SendableChooser<AutoRotate>();
-    autoRotate.addOption("Clockwise", AutoRotate.C);
-    autoRotate.addOption("Counter-Clockwise", AutoRotate.CC);
-    autoRotate.addOption("None", AutoRotate.None);
   }
 
   public enum AutoType {
@@ -138,12 +131,6 @@ public class RobotContainer {
   public enum AutoAngle {
       Right,
       Left
-  }
-
-  public enum AutoRotate {
-      C,
-      CC,
-      None
   }
 
   public void setFieldRelativeOffset(double offset) {
