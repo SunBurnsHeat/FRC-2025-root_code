@@ -14,7 +14,7 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.WinchConstants;
 
 public class WinchSubsystem extends SubsystemBase{
-    private final SparkMax winchMax = new SparkMax(WinchConstants.kWinchCANID, MotorType.kBrushless);
+    private final SparkMax winchMax;
 
     private final RelativeEncoder winchEncoder;
     
@@ -23,6 +23,7 @@ public class WinchSubsystem extends SubsystemBase{
     public WinchSubsystem(){
         CommandScheduler.getInstance().registerSubsystem(this);
 
+        winchMax = new SparkMax(WinchConstants.kWinchCANID, MotorType.kBrushless);
         winchEncoder = winchMax.getEncoder();
 
         winchMax.configure(WinchConfigs.winchMaxConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);

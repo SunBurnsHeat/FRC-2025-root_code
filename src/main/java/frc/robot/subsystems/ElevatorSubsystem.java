@@ -19,10 +19,8 @@ public class ElevatorSubsystem extends SubsystemBase {
     private final SparkMax followElevatorMax;
 
     private final RelativeEncoder leadElevatorEncoder;
-    private final RelativeEncoder followMotorEncoder;
 
     private final SparkClosedLoopController leadElevatorController;
-    private final SparkClosedLoopController followElevatorController;
     private double targetPosition = 0.0;
     
     public ElevatorSubsystem(){
@@ -32,21 +30,17 @@ public class ElevatorSubsystem extends SubsystemBase {
         followElevatorMax = new SparkMax(ElevatorConstants.kFollowElevatorMotorCANID, MotorType.kBrushless);
 
         leadElevatorEncoder = leadElevatorMax.getEncoder();
-        followMotorEncoder = followElevatorMax.getEncoder();
 
         leadElevatorController = leadElevatorMax.getClosedLoopController();
-        followElevatorController = followElevatorMax.getClosedLoopController();
 
         leadElevatorMax.configure(Configs.ElevatorSubsystemConfigs.leadElevatorMaxConfig,ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         followElevatorMax.configure(Configs.ElevatorSubsystemConfigs.followElevatorMaxConfig,ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         leadElevatorEncoder.setPosition(0);
-        followMotorEncoder.setPosition(0);
     }
 
     public void setHeight(double position){
         leadElevatorController.setReference(position, ControlType.kPosition);
-        followElevatorController.setReference(position, ControlType.kPosition);
         position = targetPosition;
     }
 
@@ -56,7 +50,6 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public void setElevatorSpeed(double speed){
         leadElevatorController.setReference(speed, ControlType.kVelocity);
-        followElevatorController.setReference(speed, ControlType.kVelocity);
     }
 
     public double getElevatorSpeed(){

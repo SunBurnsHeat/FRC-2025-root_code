@@ -15,8 +15,8 @@ import frc.robot.Constants.ArmConstants;
 
 public class ArmSubsystem extends SubsystemBase{
     
-    private final SparkMax armMax = new SparkMax(ArmConstants.kArmMotorCANID, SparkMax.MotorType.kBrushless);
-    private final SparkMax rollerMax = new SparkMax(ArmConstants.kArmRollerMotorCANID, SparkMax.MotorType.kBrushless);
+    private final SparkMax armMax;
+    private final SparkMax rollerMax;
 
     private final RelativeEncoder armMotorEncoder;
     private final RelativeEncoder rollerMotorEncoder;
@@ -29,6 +29,9 @@ public class ArmSubsystem extends SubsystemBase{
 
     public ArmSubsystem(){
         CommandScheduler.getInstance().registerSubsystem(this);
+
+        armMax = new SparkMax(ArmConstants.kArmMotorCANID, SparkMax.MotorType.kBrushless);
+        rollerMax = new SparkMax(ArmConstants.kArmRollerMotorCANID, SparkMax.MotorType.kBrushless);
 
         armMotorEncoder = armMax.getEncoder();
         rollerMotorEncoder = rollerMax.getEncoder();
