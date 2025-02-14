@@ -1,6 +1,7 @@
 package frc.robot;
 
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
+import com.revrobotics.spark.config.LimitSwitchConfig.Type;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkFlexConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
@@ -110,6 +111,7 @@ public final class Configs {
         static{
                 scorerRightMaxConfig
                         .idleMode(IdleMode.kBrake)
+                        .inverted(true)
                         .smartCurrentLimit(30)
                         .voltageCompensation(12);
                 scorerRightMaxConfig.encoder
@@ -174,6 +176,7 @@ public final class Configs {
         public static final class WinchConfigs {
         
         public static final SparkMaxConfig winchMaxConfig = new SparkMaxConfig();
+        public static final SparkMaxConfig trapMaxConfig = new SparkMaxConfig();
 
         static{
                 winchMaxConfig
@@ -185,6 +188,14 @@ public final class Configs {
                         .forwardSoftLimitEnabled(true)
                         .reverseSoftLimit(WinchConstants.kTopPosition)
                         .reverseSoftLimitEnabled(true);
+
+                trapMaxConfig
+                        .idleMode(IdleMode.kBrake)
+                        .smartCurrentLimit(25)
+                        .voltageCompensation(12);
+                trapMaxConfig.limitSwitch
+                        .reverseLimitSwitchEnabled(true)
+                        .reverseLimitSwitchType(Type.kNormallyClosed);
         }
         }
 }

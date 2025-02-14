@@ -48,7 +48,7 @@ public final class Constants {
         public static final double kBackLeftOffset = Math.PI;
         public static final double kBackRightOffset = (Math.PI / 2);
 
-        public static final double kMaxSpeedMetersPerSec = 4.8; // max speed in mps
+        public static final double kMaxSpeedMetersPerSec = 4.0; // max speed in mps
         public static final double kMaxAngSpeedRadiansPerSec = 2 * Math.PI; // max turning speed in rps
     }
 
@@ -125,8 +125,8 @@ public final class Constants {
     }
 
     public static final class ElevatorConstants{
-        public static final int kLeadElevatorMotorCANID = 11;
-        public static final int kFollowElevatorMotorCANID = 12;
+        public static final int kLeadElevatorMotorCANID = 9;
+        public static final int kFollowElevatorMotorCANID = 10;
 
         public static final double kElevatorMaxHeightRaw = 48;
         public static final double kElevatorMaxSpeed = 1.0;
@@ -174,12 +174,15 @@ public final class Constants {
     }
 
     public static final class WinchConstants{
-        public static final int kWinchCANID = 60;
+        public static final int kTrapCANID = 12;
+        public static final int kWinchCANID = 11;
 
         public static final double kTopPosition = -200;
         public static final double kIdlePosition = -90; 
 
         public static final double kIdleSpeed = 0.25;
         public static final double kWinchSpeed = -0.9;
+
+        public static final double trapOpenSpeed = - 0.4;
     }
 }

@@ -9,6 +9,7 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.WinchSubsystem;
 
 import java.util.List;
 
@@ -38,12 +39,13 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem robotDrive = new DriveSubsystem();
   private final ElevatorSubsystem elevator = new ElevatorSubsystem();
+  private final WinchSubsystem winch = new WinchSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController driverControllerCommand =
       new CommandXboxController(OIConstants.kDriverControllerPort);
-  // private final CommandXboxController coPilotControllerCommand =
-      // new CommandXboxController(OIConstants.kCoPilotControllerPort);
+  private final CommandXboxController coPilotControllerCommand =
+      new CommandXboxController(OIConstants.kCoPilotControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -55,7 +57,7 @@ public class RobotContainer {
   private void configureBindings() {
     driverControllerCommand.x().whileTrue(new RunCommand(() -> robotDrive.setX()));
     driverControllerCommand.y().whileTrue(new RunCommand(() -> robotDrive.zeroHeading()));
-    //coPilotControllerCommand.a().onTrue(new InstantCommand(() -> elevator.setElevatorPosition(ElevatorConstants.kElevatorPosition_L1_Inches)));
+    coPilotControllerCommand.a().whileTrue(new RunCommand(() -> winch.openTrap(WinchSubsystem.trappable), winch));
   }
 
   public Command getAutonomousCommand() {
@@ -114,13 +116,13 @@ public class RobotContainer {
   }
 
   public enum AutoType {
-        One_Piece,
-        Two_Piece_Left,
-        Two_Piece_Right,
-        Three_Piece_Left,
-        Three_Piece_Right,
-        Four_Piece_Left,
-        Four_Piece_Right
+    One_Piece,
+    Two_Piece_Left,
+    Two_Piece_Right,
+    Three_Piece_Left,
+    Three_Piece_Right,
+    Four_Piece_Left,
+    Four_Piece_Right
   }
 
   public enum AutoPiece {
@@ -136,8 +138,6 @@ public class RobotContainer {
   public void setFieldRelativeOffset(double offset) {
     robotDrive.setFieldRelativeOffset(offset);
   }
-
-
 
   public ProfiledPIDController getThetaController() {
     ProfiledPIDController thetaController = new ProfiledPIDController(1.25, 0, 0, new TrapezoidProfile.Constraints(2*Math.PI, 2*Math.PI));

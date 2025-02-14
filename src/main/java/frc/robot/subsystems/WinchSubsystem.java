@@ -15,8 +15,11 @@ import frc.robot.Constants.WinchConstants;
 
 public class WinchSubsystem extends SubsystemBase{
     private final SparkMax winchMax;
+    private final SparkMax trapMax;
 
     private final RelativeEncoder winchEncoder;
+
+    public static boolean trappable;
     
     private final XboxController controller = new XboxController(OIConstants.kCoPilotControllerPort);
 
@@ -24,10 +27,13 @@ public class WinchSubsystem extends SubsystemBase{
         CommandScheduler.getInstance().registerSubsystem(this);
 
         winchMax = new SparkMax(WinchConstants.kWinchCANID, MotorType.kBrushless);
+        trapMax = new SparkMax(WinchConstants.kTrapCANID, MotorType.kBrushed);
         winchEncoder = winchMax.getEncoder();
 
         winchMax.configure(WinchConfigs.winchMaxConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         winchEncoder.setPosition(0);
+
+        trappable = false;
     }
 
     public void runWinch(double setPoint){
@@ -41,6 +47,12 @@ public class WinchSubsystem extends SubsystemBase{
         }
         else {
             runWinch(controller.getLeftY()*WinchConstants.kWinchSpeed);
+        }
+    }
+
+    public void openTrap(boolean trappable){
+        if (trappable) {
+            trapMax.set(WinchConstants.trapOpenSpeed);
         }
     }
 
